@@ -60,7 +60,6 @@ class HomeScreen extends React.Component {
   }
 
   render() {
-    
 
     return (
       <View style={styles.container}>
@@ -74,7 +73,7 @@ class HomeScreen extends React.Component {
                 <EventCard
                   id={item}
                   name={item.name}
-                  pic={item.pic}
+                  pic={item.image}
                   date={item.date}
                 />
               )}
