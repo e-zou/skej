@@ -8,26 +8,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import EventCard from './components/EventCard.js'
 import { Dimensions } from 'react-native';
 
-const Data = [
-  {
-    id: '1',
-    name: 'First Item',
-    date: "date",
-    pic: 1,
-  },
-  {
-    id: '2',
-    name: 'Second Item',
-    date: "date",
-    pic: 2,
-  },
-  {
-    id: '3',
-    name: 'Third Item',
-    date: "date",
-    pic: 3,
-  },
-];
+
 
 class HomeScreen extends React.Component {
 
@@ -36,6 +17,12 @@ class HomeScreen extends React.Component {
   }
 
   render() {
+    
+    var Data = [];
+    firebase.database().ref("events").orderByKey().on("child_added", function (snapshot) {
+      Data.push(snapshot.val())
+    })
+
     return (
       <View style={styles.container}>
         <Text style = {styles.header_text}>All Items</Text>

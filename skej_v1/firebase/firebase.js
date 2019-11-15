@@ -11,6 +11,8 @@ appId: process.env.REACT_APP_ID,
 appMeasurementId: process.env.APP_MEASUREMENTID,
 };
 
-firebase.initializeApp(config);
-
+if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+  }
+  
 export default firebase;
