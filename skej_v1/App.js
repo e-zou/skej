@@ -5,7 +5,8 @@ import { Text, View, ScrollView, StyleSheet, FlatList } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import InvitationCard from './components/InvitationCard.js'
+import EventCard from './components/EventCard.js'
+import { Dimensions } from 'react-native';
 
 const Data = [
   {
@@ -32,31 +33,30 @@ class HomeScreen extends React.Component {
 
   componentDidMount(){
     const test = firebase.database().ref("test name");
-    console.log(test.val());
   }
 
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Home!</Text>
-        <ScrollView style={styles.scrollview_container}>
       <View style={styles.container}>
-      <FlatList
-        data={Data}
-        renderItem={({ item }) => (
-          <InvitationCard
-            id={item.id}
-            name={item.name}
-            pic={item.pic}
-            date={item.date}
-          />
-        )}
-        keyExtractor={item => item.id}
-      />
-    </View>
-    </ScrollView>
-    </View>
-  );
+        <Text style = {styles.header_text}>All Items</Text>
+        <ScrollView>
+          <View>
+            <FlatList
+              data={Data}
+              renderItem={({ item }) => (
+                <EventCard
+                  id={item.id}
+                  name={item.name}
+                  pic={item.pic}
+                  date={item.date}
+                />
+              )}
+              keyExtractor={item => item.id}
+            />
+          </View>
+        </ScrollView>
+      </View>
+    );
 }
 };
 class CreateScreen extends React.Component {
@@ -135,19 +135,17 @@ export default createAppContainer(
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow:1,
+    flexGrow: 1,
     justifyContent: 'center',
-    width: '100%',
-    height: '100',
-    paddingBottom: 10,
-    backgroundColor: 'rgba(255,255,255,0.4)',
+    alignItems: 'center',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
   header_text: {
-    fontSize: 25,
+    fontSize: 28,
     textAlign: 'left',
-    padding: 5,
+    paddingLeft: 25,
+    paddingTop: 25,
+    width: '100%',
   },
- scrollview_container: {
-   padding: 10,
- }
 });
