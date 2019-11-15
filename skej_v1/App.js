@@ -1,5 +1,7 @@
 import React from 'react';
-import { Text, View, StyleSheet, FlatList } from 'react-native';
+import firebase from "./firebase/firebase.js";
+
+import { Text, View, ScrollView, StyleSheet, FlatList } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -27,10 +29,17 @@ const Data = [
 ];
 
 class HomeScreen extends React.Component {
+
+  componentDidMount(){
+    const test = firebase.database().ref("test name");
+    console.log(test.val());
+  }
+
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Home!</Text>
+        <ScrollView style={styles.scrollview_container}>
       <View style={styles.container}>
       <FlatList
         data={Data}
@@ -45,6 +54,7 @@ class HomeScreen extends React.Component {
         keyExtractor={item => item.id}
       />
     </View>
+    </ScrollView>
     </View>
   );
 }
@@ -96,7 +106,7 @@ const getTabBarIcon = (navigation, tintColor) => {
     iconName = `ios-create`;
   } else if (routeName === 'Profile') {
     iconName = `ios-person`;
-  }
+  };
 
   // You can return any component that you like here!
   return <IconComponent name={iconName} size={25} color={tintColor} />;
@@ -132,4 +142,12 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     backgroundColor: 'rgba(255,255,255,0.4)',
   },
+  header_text: {
+    fontSize: 25,
+    textAlign: 'left',
+    padding: 5,
+  },
+ scrollview_container: {
+   padding: 10,
+ }
 });
