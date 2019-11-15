@@ -1,19 +1,54 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet, FlatList } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import InvitationCard from './components/InvitationCard.js'
+
+const Data = [
+  {
+    id: '1',
+    name: 'First Item',
+    date: "date",
+    pic: 1,
+  },
+  {
+    id: '2',
+    name: 'Second Item',
+    date: "date",
+    pic: 2,
+  },
+  {
+    id: '3',
+    name: 'Third Item',
+    date: "date",
+    pic: 3,
+  },
+];
 
 class HomeScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Home!</Text>
-      </View>
-    );
-  }
+      <View style={styles.container}>
+      <FlatList
+        data={Data}
+        renderItem={({ item }) => (
+          <InvitationCard
+            id={item.id}
+            name={item.name}
+            pic={item.pic}
+            date={item.date}
+          />
+        )}
+        keyExtractor={item => item.id}
+      />
+    </View>
+    </View>
+  );
 }
-
+};
 class CreateScreen extends React.Component {
   render() {
     return (
@@ -27,8 +62,8 @@ class CreateScreen extends React.Component {
 class ProfileScreen extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Settings!</Text>
+      <View style={{ flex: 1, flexDirection: "colunm", justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Profile</Text>
       </View>
     );
   }
@@ -87,3 +122,14 @@ export default createAppContainer(
   )
 );
 
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow:1,
+    justifyContent: 'center',
+    width: '100%',
+    height: '100',
+    paddingBottom: 10,
+    backgroundColor: 'rgba(255,255,255,0.4)',
+  },
+});
