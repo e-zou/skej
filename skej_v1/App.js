@@ -14,7 +14,17 @@ class HomeScreen extends React.Component {
   }
 }
 
-class SettingsScreen extends React.Component {
+class CreateScreen extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Create!</Text>
+      </View>
+    );
+  }
+}
+
+class ProfileScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -40,15 +50,17 @@ const HomeIcon = props => {
   return <Icon {...props} />;
 };
 
-const getTabBarIcon = (navigation, focused, tintColor) => {
+const getTabBarIcon = (navigation, tintColor) => {
   const { routeName } = navigation.state;
   let IconComponent = Ionicons;
   let iconName;
   if (routeName === 'Home') {
-    iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+    iconName = `ios-home`;
     IconComponent = HomeIcon;
-  } else if (routeName === 'Settings') {
-    iconName = `ios-options${focused ? '' : '-outline'}`;
+  } else if (routeName === 'Create') {
+    iconName = `ios-create`;
+  } else if (routeName === 'Profile') {
+    iconName = `ios-person`;
   }
 
   // You can return any component that you like here!
@@ -59,12 +71,13 @@ export default createAppContainer(
   createBottomTabNavigator(
     {
       Home: { screen: HomeScreen },
-      Settings: { screen: SettingsScreen },
+      Create: { screen: CreateScreen },
+      Profile: { screen: ProfileScreen },
     },
     {
       defaultNavigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ focused, tintColor }) =>
-          getTabBarIcon(navigation, focused, tintColor),
+        tabBarIcon: ({ tintColor }) =>
+          getTabBarIcon(navigation, tintColor),
       }),
       tabBarOptions: {
         activeTintColor: '#6FC4FA',
