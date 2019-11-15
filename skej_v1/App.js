@@ -12,16 +12,55 @@ import { Dimensions } from 'react-native';
 
 class HomeScreen extends React.Component {
 
+  // const Data = [
+  //   {
+  //     id: '1',
+  //     name: 'First Item',
+  //     date: "date",
+  //     pic: 1,
+  //   },
+  //   {
+  //     id: '2',
+  //     name: 'Second Item',
+  //     date: "date",
+  //     pic: 2,
+  //   },
+  //   {
+  //     id: '3',
+  //     name: 'Third Item',
+  //     date: "date",
+  //     pic: 3,
+  //   },
+  // ];
+
+  constructor(props) {
+    super(); // or super(props) ?
+    this.state = {
+      events: []
+    }
+  }
+
   componentDidMount(){
     const test = firebase.database().ref("test name");
+    
+    let events = []
+    firebase.database().ref("/events").orderByKey().on("child_added", (snapshot) => {
+      events = snapshot.val()
+
+      this.setState({
+        events: events
+      })
+
+      // console.log({events.name})
+      console.log(events)
+      // console.log(this.state.events)
+      // console.log(events)
+    })
+
   }
 
   render() {
     
-    var Data = [];
-    firebase.database().ref("events").orderByKey().on("child_added", function (snapshot) {
-      Data.push(snapshot.val())
-    })
 
     return (
       <View style={styles.container}>
@@ -29,10 +68,11 @@ class HomeScreen extends React.Component {
         <ScrollView>
           <View>
             <FlatList
-              data={Data}
+              data={this.state.events}
               renderItem={({ item }) => (
+                
                 <EventCard
-                  id={item.id}
+                  id={item}
                   name={item.name}
                   pic={item.pic}
                   date={item.date}
