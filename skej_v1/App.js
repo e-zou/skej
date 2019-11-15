@@ -1,6 +1,5 @@
-import React from 'react';
-import firebase from "./firebase/firebase.js";
-
+import React , {Component } from 'react';
+import firebase from './firebase/firebase.js';
 import { Text, View, ScrollView, StyleSheet, FlatList } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createAppContainer } from 'react-navigation';
@@ -8,79 +7,55 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import EventCard from './components/EventCard.js'
 import { Dimensions } from 'react-native';
 
-
-
 class HomeScreen extends React.Component {
 
-  // const Data = [
-  //   {
-  //     id: '1',
-  //     name: 'First Item',
-  //     date: "date",
-  //     pic: 1,
-  //   },
-  //   {
-  //     id: '2',
-  //     name: 'Second Item',
-  //     date: "date",
-  //     pic: 2,
-  //   },
-  //   {
-  //     id: '3',
-  //     name: 'Third Item',
-  //     date: "date",
-  //     pic: 3,
-  //   },
-  // ];
-
   constructor(props) {
-    super(); // or super(props) ?
+    super(props);
     this.state = {
       events: []
     }
   }
 
   componentDidMount(){
-    const test = firebase.database().ref("test name");
-    
+    // const test = firebase.database().ref("test name");
     let events = []
     firebase.database().ref("/events").orderByKey().on("value", snapshot => {
       events = snapshot.val()
-
       this.setState({
         events: events
       })
-
-
     })
-
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Text style = {styles.header_text}>All Items</Text>
-        <ScrollView>
-          <View>
-            <FlatList
-              data={this.state.events}
-              renderItem={({ item }) => (
-                <EventCard
-                  data = {this.state.events}
-                  id={item}
-                  name={item.name}
-                  pic={item.image}
-                  date={item.date}
-                />
-              )}
-              keyExtractor={item => item.id}
-            />
-          </View>
-        </ScrollView>
+        {this.state.events.length > 0 ? (
+          <ScrollView>
+            <View>
+              <FlatList
+                data= {this.state.events}
+                renderItem={({ item }) => (
+                  <EventCard
+                    id={item.id}
+                    name={item.name}
+                    pic={item.image}
+                    date={item.date}
+                  />
+                )}
+                keyExtractor={item => item.id}
+              />
+            </View>
+          </ScrollView>
+        ) : (
+          <Text>No events</Text>
+        )}
       </View>
     );
-}
+  }
 };
+
 class CreateScreen extends React.Component {
   render() {
     return (
