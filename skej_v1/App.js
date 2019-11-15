@@ -57,7 +57,6 @@ class HomeScreen extends React.Component {
   }
 
   render() {
-    // console.log(this.state.events)
     return (
       <View style={styles.container}>
         <Text style = {styles.header_text}>All Items</Text>
