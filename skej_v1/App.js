@@ -44,23 +44,20 @@ class HomeScreen extends React.Component {
     const test = firebase.database().ref("test name");
     
     let events = []
-    firebase.database().ref("/events").orderByKey().on("child_added", (snapshot) => {
+    firebase.database().ref("/events").orderByKey().on("value", snapshot => {
       events = snapshot.val()
 
       this.setState({
         events: events
       })
 
-      // console.log({events.name})
-      console.log(events)
-      // console.log(this.state.events)
-      // console.log(events)
+
     })
 
   }
 
   render() {
-
+    // console.log(this.state.events)
     return (
       <View style={styles.container}>
         <Text style = {styles.header_text}>All Items</Text>
@@ -69,8 +66,8 @@ class HomeScreen extends React.Component {
             <FlatList
               data={this.state.events}
               renderItem={({ item }) => (
-                
                 <EventCard
+                  data = {this.state.events}
                   id={item}
                   name={item.name}
                   pic={item.image}
