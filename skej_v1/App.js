@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import firebase from "./../firebase/firebase.js";
 
 class HomeScreen extends React.Component {
   render() {
