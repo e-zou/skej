@@ -1,6 +1,5 @@
-import React from 'react';
-import firebase from "./firebase/firebase.js";
-
+import React , {Component } from 'react';
+import db from './firebase/firebase.js';
 import { Text, View, ScrollView, StyleSheet, FlatList } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createAppContainer } from 'react-navigation';
@@ -8,44 +7,50 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import EventCard from './components/EventCard.js'
 import { Dimensions } from 'react-native';
 
-
+let eventsRef = db.ref("events");
 
 class HomeScreen extends React.Component {
+  state = {
+    events: []
+  };
 
   componentDidMount(){
-    const test = firebase.database().ref("test name");
+    eventsRef.orderByKey().on("value", snapshot => {
+      let data = snapshot.val();
+      let events = Object.values(data);
+      this.setState({ events });
+    });
   }
 
   render() {
-    
-    var Data = [];
-    firebase.database().ref("events").orderByKey().on("child_added", function (snapshot) {
-      Data.push(snapshot.val())
-    })
-
     return (
       <View style={styles.container}>
         <Text style = {styles.header_text}>All Items</Text>
-        <ScrollView>
-          <View>
-            <FlatList
-              data={Data}
-              renderItem={({ item }) => (
-                <EventCard
-                  id={item.id}
-                  name={item.name}
-                  pic={item.pic}
-                  date={item.date}
-                />
-              )}
-              keyExtractor={item => item.id}
-            />
-          </View>
-        </ScrollView>
+        {this.state.events.length > 0 ? (
+          <ScrollView>
+            <View>
+              <FlatList
+                data= {this.state.events}
+                renderItem={({ item }) => (
+                  <EventCard
+                    id={item.id}
+                    name={item.name}
+                    pic={item.pic}
+                    date={item.date}
+                  />
+                )}
+                keyExtractor={item => item.id}
+              />
+            </View>
+          </ScrollView>
+        ) : (
+          <Text>No events</Text>
+        )}
       </View>
     );
-}
+  }
 };
+
 class CreateScreen extends React.Component {
   render() {
     return (

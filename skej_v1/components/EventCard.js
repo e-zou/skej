@@ -8,7 +8,7 @@ const screenHeight = Dimensions.get('window').height;
 export default function EventCard(props) {
   return (
     <View style={styles.container}>
-      <Text>{props.name}</Text>
+      <Text style={styles.eventName}>{props.name}</Text>
       <Text>{props.date}</Text>
     </View>
   );
@@ -29,7 +29,10 @@ const styles = StyleSheet.create({
     elevation: 11,
     margin: 10,
   },
-
+  eventName: {
+    fontSize: 18,
+    fontWeight: 'bold'
+  }
 
    
 });
