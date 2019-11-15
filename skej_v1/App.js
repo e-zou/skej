@@ -17,7 +17,7 @@ class HomeScreen extends React.Component {
   }
 
   render() {
-    
+
     var Data = [];
     firebase.database().ref("events").orderByKey().on("child_added", function (snapshot) {
       Data.push(snapshot.val())
@@ -34,7 +34,7 @@ class HomeScreen extends React.Component {
                 <EventCard
                   id={item.id}
                   name={item.name}
-                  pic={item.pic}
+                  pic={item.image}
                   date={item.date}
                 />
               )}
