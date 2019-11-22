@@ -1,70 +1,13 @@
-import React , {Component } from 'react';
-import firebase from './firebase/firebase.js';
-import { Text, View, ScrollView, StyleSheet, FlatList } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import React, { Component } from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import EventCard from './components/EventCard.js'
+import { Text, View, ScrollView, StyleSheet, FlatList } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Dimensions } from 'react-native';
 
-class HomeScreen extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      events: []
-    }
-  }
-
-  componentDidMount(){
-    // const test = firebase.database().ref("test name");
-    let events = []
-    firebase.database().ref("/events").orderByKey().on("value", snapshot => {
-      events = snapshot.val()
-      this.setState({
-        events: events
-      })
-    })
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style = {styles.header_text}>All Items</Text>
-        {this.state.events.length > 0 ? (
-          <ScrollView>
-            <View>
-              <FlatList
-                data= {this.state.events}
-                renderItem={({ item }) => (
-                  <EventCard
-                    id={item.id}
-                    name={item.name}
-                    pic={item.image}
-                    date={item.date}
-                  />
-                )}
-                keyExtractor={item => item.id}
-              />
-            </View>
-          </ScrollView>
-        ) : (
-          <Text>No events</Text>
-        )}
-      </View>
-    );
-  }
-};
-
-class CreateScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Create!</Text>
-      </View>
-    );
-  }
-}
+import Home from './screens/Home';
+import AddEvent from './screens/AddEvent';
+import EventList from './screens/EventList';
 
 class ProfileScreen extends React.Component {
   render() {
@@ -109,26 +52,31 @@ const getTabBarIcon = (navigation, tintColor) => {
   return <IconComponent name={iconName} size={25} color={tintColor} />;
 };
 
-export default createAppContainer(
-  createBottomTabNavigator(
-    {
-      Home: { screen: HomeScreen },
-      Create: { screen: CreateScreen },
-      Profile: { screen: ProfileScreen },
+const AppNavigator = createBottomTabNavigator(
+  {
+    Home: { screen: EventList },
+    Create: { screen: AddEvent },
+    Profile: { screen: ProfileScreen },
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ tintColor }) =>
+        getTabBarIcon(navigation, tintColor),
+    }),
+    tabBarOptions: {
+      activeTintColor: '#6FC4FA',
+      inactiveTintColor: 'gray',
     },
-    {
-      defaultNavigationOptions: ({ navigation }) => ({
-        tabBarIcon: ({ tintColor }) =>
-          getTabBarIcon(navigation, tintColor),
-      }),
-      tabBarOptions: {
-        activeTintColor: '#6FC4FA',
-        inactiveTintColor: 'gray',
-      },
-    }
-  )
+  }
 );
 
+const AppContainer = createAppContainer(AppNavigator);
+
+export default class App extends Component {
+  render() {
+    return <AppContainer />;
+  }
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -146,3 +94,4 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 });
+
