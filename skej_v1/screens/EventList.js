@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import EventCard from '../components/EventCard.js';
 import { Dimensions } from 'react-native';
 import firebase from '../firebase/firebase.js';
@@ -32,12 +32,14 @@ export default class List extends Component {
                         <FlatList
                         data= {this.state.events}
                         renderItem={({ item }) => (
-                            <EventCard
-                            id={item.id}
-                            name={item.name}
-                            pic={item.image}
-                            date={item.date}
-                            />
+                            <TouchableOpacity key={item.id} onPress={() => this.props.navigation.navigate('EventDetails')}>  
+                                <EventCard
+                                id={item.id}
+                                name={item.name}
+                                pic={item.image}
+                                date={item.date}
+                                />
+                            </TouchableOpacity>
                         )}
                         keyExtractor={item => item.id}
                         />

@@ -1,23 +1,14 @@
 import React, { Component } from 'react';
 import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { Text, View, ScrollView, StyleSheet, FlatList } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Dimensions } from 'react-native';
 
-import Home from './screens/Home';
 import AddEvent from './screens/AddEvent';
 import EventList from './screens/EventList';
-
-class ProfileScreen extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1, flexDirection: "colunm", justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Profile</Text>
-      </View>
-    );
-  }
-}
+import EventDetails from './screens/EventDetails';
 
 class Icon extends React.Component {
   render() {
@@ -52,11 +43,29 @@ const getTabBarIcon = (navigation, tintColor) => {
   return <IconComponent name={iconName} size={25} color={tintColor} />;
 };
 
+const StackNavigator = createStackNavigator(
+  {
+    EventList,
+    EventDetails,
+  },
+  {
+    initialRouteName: 'EventList',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#70649B',
+      },
+      headerTintColor: '#ffffff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    },
+  }
+);
+
 const AppNavigator = createBottomTabNavigator(
   {
-    Home: { screen: EventList },
-    Create: { screen: AddEvent },
-    Profile: { screen: ProfileScreen },
+    Home: StackNavigator, // { screen: EventList }
+    Create: { screen: AddEvent }
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -64,8 +73,13 @@ const AppNavigator = createBottomTabNavigator(
         getTabBarIcon(navigation, tintColor),
     }),
     tabBarOptions: {
-      activeTintColor: '#6FC4FA',
-      inactiveTintColor: 'gray',
+      activeTintColor: '#aeeeff',
+      inactiveTintColor: '#ffffff',
+      style: {
+        backgroundColor: '#70649B',
+        // 565656
+        // 4A4949
+      },
     },
   }
 );
@@ -77,21 +91,4 @@ export default class App extends Component {
     return <AppContainer />;
   }
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-  },
-  header_text: {
-    fontSize: 28,
-    textAlign: 'left',
-    paddingLeft: 25,
-    paddingTop: 25,
-    width: '100%',
-  },
-});
 
