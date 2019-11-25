@@ -4,21 +4,33 @@ import EventCard from '../components/EventCard.js';
 import { Dimensions } from 'react-native';
 import firebase from '../firebase/firebase.js';
 
-let eventsRef = firebase.database().ref('/events').orderByKey();
-
 export default class List extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            events: []
+            events: [],
         }
     }
 
     componentDidMount() {
-        eventsRef.on('value', snapshot => {
-        let data = snapshot.val();
-        let events = Object.values(data);
-        this.setState({ events });
+        const rootRef = firebase.database().ref();
+        const eventsRef = rootRef.child("events");
+        eventsRef.on("value", snap => {
+            const foo = snap.val();
+            if (foo !== null) {  
+                var eventsList = new Array ();
+                Object.keys(foo).forEach(key => {
+                    var item = {
+                        id: key, //this is to get the ID
+                        name: foo[key].name,
+                        pic: foo[key].image,
+                        date: foo[key].date,
+                    }
+                    eventsList.push(item);
+                });
+                // console.log(eventsList)
+                this.setState({ events : eventsList });
+            }
         });
     }
 
@@ -27,14 +39,18 @@ export default class List extends Component {
             <View style={styles.container}>
                 <Text style = {styles.header_text}>All Events</Text>
                 {this.state.events.length > 0 ? (
-                    <ScrollView>
+                    <ScrollView style={styles.scrollview_container}>
                     <View>
                         <FlatList
                         data= {this.state.events}
                         renderItem={({ item }) => (
-                            <TouchableOpacity key={item.id} onPress={() => this.props.navigation.navigate('EventDetails')}>  
+                            <TouchableOpacity key={item.id} onPress={() => {
+                                    this.props.navigation.navigate('EventDetails', {
+                                        name: item.name,
+                                        date: item.date,
+                                    });
+                                }}>  
                                 <EventCard
-                                id={item.id}
                                 name={item.name}
                                 pic={item.image}
                                 date={item.date}
@@ -61,11 +77,14 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
+  scrollview_container: {
+    padding: 10
+  },
   header_text: {
     fontSize: 28,
     textAlign: 'left',
-    paddingLeft: 25,
-    paddingTop: 25,
+    paddingLeft: 20,
+    paddingTop: 20,
     width: '100%',
   },
 });

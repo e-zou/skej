@@ -6,8 +6,6 @@ const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height; 
 
 export default function EventCard(props) {
-
-  
   return (
     <View style={styles.container}>
       <Text style={styles.eventName}>{props.name}</Text>
@@ -34,7 +32,5 @@ const styles = StyleSheet.create({
   eventName: {
     fontSize: 18,
     fontWeight: 'bold'
-  }
-
-   
+  } 
 });

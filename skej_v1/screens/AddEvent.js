@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Button, View, Text, TouchableHighlight, StyleSheet, TextInput, Alert } from 'react-native';
+import { Button, View, Text, StyleSheet, Alert, Keyboard } from 'react-native';
 import firebase from '../firebase/firebase.js';
 import t from 'tcomb-form-native';
 
 const Form = t.form.Form;
 
 const Event = t.struct({
-    id: t.String,
     name: t.String,
     pic: t.String,
     date: t.String
@@ -14,7 +13,6 @@ const Event = t.struct({
 
 let addEvent = event => {
     firebase.database().ref('/events').push({
-        id: event.id,
         name: event.name,
         pic: event.pic,
         date: event.date
@@ -33,8 +31,14 @@ export default class AddEvent extends Component {
     handleSubmit = () => {
         const value = this._form.getValue();
         // console.log('value: ', value);
-        addEvent(value);
-        Alert.alert('Item saved successfully');
+        if (value != null ) {
+            addEvent(value);
+            Keyboard.dismiss(); 
+            Alert.alert('Your event was successfully created!');
+        } else {
+            Keyboard.dismiss();
+            Alert.alert('All fields are required.');
+        }
     }
         
     render() {
@@ -69,8 +73,8 @@ const styles = StyleSheet.create({
     header_text: {
         fontSize: 28,
         textAlign: 'left',
-        paddingLeft: 25,
-        paddingTop: 25,
+        paddingLeft: 20,
+        paddingTop: 20,
         width: '100%',
     },
   });

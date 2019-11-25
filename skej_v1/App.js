@@ -4,7 +4,6 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { Text, View, ScrollView, StyleSheet, FlatList } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Dimensions } from 'react-native';
 
 import AddEvent from './screens/AddEvent';
 import EventList from './screens/EventList';
@@ -43,7 +42,7 @@ const getTabBarIcon = (navigation, tintColor) => {
   return <IconComponent name={iconName} size={25} color={tintColor} />;
 };
 
-const StackNavigator = createStackNavigator(
+const EventListStackNavigator = createStackNavigator(
   {
     EventList,
     EventDetails,
@@ -62,10 +61,28 @@ const StackNavigator = createStackNavigator(
   }
 );
 
+const AddEventStackNavigator = createStackNavigator(
+  {
+    AddEvent,
+  },
+  {
+    initialRouteName: 'AddEvent',
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: '#70649B',
+      },
+      headerTintColor: '#ffffff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    },
+  }
+);
+
 const AppNavigator = createBottomTabNavigator(
   {
-    Home: StackNavigator, // { screen: EventList }
-    Create: { screen: AddEvent }
+    Home: EventListStackNavigator, 
+    Create: AddEventStackNavigator 
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
