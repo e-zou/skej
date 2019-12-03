@@ -12,6 +12,7 @@ export default function EventCard(props) {
         <Text style={styles.eventName}>{props.name}</Text>
         <Text>{props.date}</Text>
         <Text>{props.desc}</Text>
+        <Text> {props.location}</Text>
       </View>
     </View>
   );

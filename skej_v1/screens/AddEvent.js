@@ -11,7 +11,9 @@ const Form = t.form.Form;
 const Event = t.struct({
     name: t.String,
     date: t.Date,
-    description: t.String
+    description: t.String,
+    date: t.String,
+    location: t.String,
 });
 
 let addEvent = (event, image) => {
@@ -20,6 +22,7 @@ let addEvent = (event, image) => {
         pic: image,
         date: event.date,
         desc: event.description,
+        location: event.location,
     });
     // console.log('event: ', event);
 };
