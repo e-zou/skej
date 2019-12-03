@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, View, Text, StyleSheet, Alert, Keyboard } from 'react-native';
 import CameraComponent from '../components/CameraComponent.js';
 
-
 export default class CameraScreen extends Component {
     constructor(props) {
         super(props);
