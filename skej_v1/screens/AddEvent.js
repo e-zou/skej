@@ -11,7 +11,7 @@ const Form = t.form.Form;
 const Event = t.struct({
     name: t.String,
     date: t.Date,
-    desc: t.String
+    description: t.String
 });
 
 let addEvent = (event, image) => {
@@ -19,7 +19,7 @@ let addEvent = (event, image) => {
         name: event.name,
         pic: image,
         date: event.date,
-        desc: event.desc,
+        desc: event.description,
     });
     // console.log('event: ', event);
 };
@@ -58,7 +58,7 @@ export default class AddEvent extends Component {
         return (
             <View style={styles.container}>
                 <Text style = {styles.header_text}>Create an Event</Text>
-                <View style={{ paddingTop: 20 }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 20 }}>
                     <Button
                     title="Upload an image from Camera Roll"
                     onPress={this._pickImage}
