@@ -12,7 +12,6 @@ const Event = t.struct({
     name: t.String,
     date: t.Date,
     description: t.String,
-    date: t.String,
     location: t.String,
 });
 

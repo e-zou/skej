@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     paddingLeft: 20,
     paddingTop: 20,
+    paddingBottom: 5,
     width: '100%',
   },
 });
