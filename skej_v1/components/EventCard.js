@@ -4,18 +4,21 @@ import { Dimensions } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width; 
 const screenHeight = Dimensions.get('window').height; 
-
 export default function EventCard(props) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.eventName}>{props.name}</Text>
-      <Text>{props.date}</Text>
+    <View style={styles.cardContainer}>
+      <Image source={{ uri: props.pic }} style={styles.imageContainer}/>
+      <View style={styles.textContainer}>
+        <Text style={styles.eventName}>{props.name}</Text>
+        <Text>{props.date}</Text>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  cardContainer: {
+    flexDirection: 'row',
     backgroundColor: '#FFFFFF',
     width: screenWidth*0.9,
     height: 100,
@@ -32,5 +35,13 @@ const styles = StyleSheet.create({
   eventName: {
     fontSize: 18,
     fontWeight: 'bold'
-  } 
+  },
+  imageContainer: {
+    width: 90,
+    height: 90,
+    margin: 5
+  }, 
+  textContainer: {
+    margin: 5
+  }
 });

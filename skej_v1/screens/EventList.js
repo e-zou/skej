@@ -23,7 +23,7 @@ export default class List extends Component {
                     var item = {
                         id: key, //this is to get the ID
                         name: foo[key].name,
-                        pic: foo[key].image,
+                        pic: foo[key].pic,
                         date: foo[key].date,
                     }
                     eventsList.push(item);
@@ -47,12 +47,13 @@ export default class List extends Component {
                             <TouchableOpacity key={item.id} onPress={() => {
                                     this.props.navigation.navigate('EventDetails', {
                                         name: item.name,
+                                        pic: item.pic,
                                         date: item.date,
                                     });
                                 }}>  
                                 <EventCard
                                 name={item.name}
-                                pic={item.image}
+                                pic={item.pic}
                                 date={item.date}
                                 />
                             </TouchableOpacity>
@@ -74,11 +75,10 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
   },
   scrollview_container: {
-    padding: 10
+    padding: 10,
+    height: Dimensions.get('window').height*0.8,
   },
   header_text: {
     fontSize: 28,
