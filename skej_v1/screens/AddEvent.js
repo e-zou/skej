@@ -8,13 +8,15 @@ const Form = t.form.Form;
 const Event = t.struct({
     name: t.String,
     pic: t.String,
-    date: t.String
+    date: t.String,
+    location: t.String,
 });
 
 let addEvent = event => {
     firebase.database().ref('/events').push({
         name: event.name,
         pic: event.pic,
+        location: event.location,
         date: event.date
     });
     // console.log('event: ', event);

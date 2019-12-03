@@ -23,6 +23,7 @@ export default class List extends Component {
                     var item = {
                         id: key, //this is to get the ID
                         name: foo[key].name,
+                        location: foo[key].location,
                         pic: foo[key].image,
                         date: foo[key].date,
                     }
@@ -48,12 +49,14 @@ export default class List extends Component {
                                     this.props.navigation.navigate('EventDetails', {
                                         name: item.name,
                                         date: item.date,
+                                        location: item.location,
                                     });
                                 }}>  
                                 <EventCard
                                 name={item.name}
                                 pic={item.image}
                                 date={item.date}
+                                location={item.location}
                                 />
                             </TouchableOpacity>
                         )}
