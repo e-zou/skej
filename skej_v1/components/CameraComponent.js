@@ -74,6 +74,13 @@ uploadImage = async (uri, imageName) => {
     } else {
         return ( 
             <View>
+                <Button
+                    title="Upload an image from Camera Roll"
+                    onPress={this._pickImage}
+                    />
+                    {image &&
+                    <Image source={{ uri: image }} style={{ width: 90, height: 90 }} />}
+                    
                 <Button title="Choose image..." onPress={this.onChooseImagePress} />
                 {image &&
                     <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}

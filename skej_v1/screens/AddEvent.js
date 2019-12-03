@@ -1,62 +1,78 @@
 import React, { Component } from 'react';
-import { Button, View, Text, StyleSheet, Alert, Keyboard } from 'react-native';
+import { Button, Image, View, Text, StyleSheet, Alert, Keyboard } from 'react-native';
 import firebase from '../firebase/firebase.js';
 import t from 'tcomb-form-native';
-import CameraComponent from '../components/CameraComponent.js';
-
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 
 const Form = t.form.Form;
 
 const Event = t.struct({
     name: t.String,
-    pic: t.String,
-    date: t.String
+    date: t.Date,
+    description: t.String,
+    location: t.String,
 });
 
-let addEvent = event => {
+let addEvent = (event, image) => {
     firebase.database().ref('/events').push({
         name: event.name,
-        pic: event.pic,
-        date: event.date
+        pic: image,
+        date: event.date,
+        desc: event.description,
+        location: event.location,
     });
     // console.log('event: ', event);
 };
-
-
-
 
 export default class AddEvent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            event: {}
+            event: {},
+            image: null
         };
     }
-
-        
+    
     handleSubmit = () => {
         const value = this._form.getValue();
+        const pic = this.state.image;
         // console.log('value: ', value);
-        if (value != null ) {
-            addEvent(value);
+        // console.log('pic', pic);
+        if (value != null && pic != null) {
+            addEvent(value, pic);
             Keyboard.dismiss(); 
             Alert.alert('Your event was successfully created!');
+            this.props.navigation.navigate('Home');
         } else {
             Keyboard.dismiss();
-            Alert.alert('All fields are required.');
+            if (pic == null) {
+                Alert.alert('You must select an image.');
+            } else {
+                Alert.alert('All fields are required.');
+            }
         }
     }
         
     render() {
+        let { image } = this.state;
         return (
             <View style={styles.container}>
                 <Text style = {styles.header_text}>Create an Event</Text>
+                <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 20 }}>
+                    <Button
+                    title="Upload an image from Camera Roll"
+                    onPress={this._pickImage}
+                    />
+                    {image &&
+                    <Image source={{ uri: image }} style={{ width: 90, height: 90 }} />}
+                </View>
                 <View style={styles.form_container}>
                 <Form 
                     ref={c => this._form = c} 
                     type={Event} 
                 />
-                <CameraComponent/>
                 <Button
                     title="Create Event"
                     onPress={this.handleSubmit}
@@ -65,13 +81,40 @@ export default class AddEvent extends Component {
             </View>
         );
     }
+
+    componentDidMount() {
+        this.getPermissionAsync();
+    }
+
+    getPermissionAsync = async () => {
+        if (Constants.platform.ios) {
+          const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+          if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+          }
+        }
+    }
+    
+    _pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1
+        });
+    
+        // console.log(result);
+    
+        if (!result.cancelled) {
+          this.setState({ image: result.uri });
+        }
+    };
 }  
   
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         backgroundColor: '#ffffff',
-        flex:1,
     },
     form_container: {
         justifyContent: 'center',
@@ -85,4 +128,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         width: '100%',
     },
+    descTextbox: {
+        height: 100,
+    }
   });
