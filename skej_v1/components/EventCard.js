@@ -17,14 +17,7 @@ export default function EventCard(props) {
       <Text style={styles.eventName}>{props.name}</Text>
       <Text>{props.date}</Text>
       <Text> {props.location}</Text>
-      <View style={styles.container}>
-          <Text style={styles.paragraph}></Text>
-            <MapView
-                style={{ height: 400 }}
-                region={props.state.mapRegion}
-                onRegionChange={props.state.handleMapRegionChange}
-              />
-        </View>
+     
     </View>
   );
 }

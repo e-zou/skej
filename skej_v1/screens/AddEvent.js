@@ -5,25 +5,29 @@ import t from 'tcomb-form-native';
 import Geocoder from 'react-native-geocoding';
 
 const Form = t.form.Form;
-Geocoder.init("AIzaSyD8WryF6moWGb0uzpuaNOq5XNzrhoRnqHs"); // use a valid API key
+Geocoder.init("AIzaSyALZIr2GgXQHbTc9V8uiyangXZ_zG1cCoA"); // use a valid API key
 const Event = t.struct({
     name: t.String,
     pic: t.String,
     date: t.String,
     location: t.String,
 });
-Geocoder.from("Colosseum")
+
+let  addEvent = async event => {
+    let coord = await Geocoder.from(event.location)
         .then(json => {
-            var location = json.results[0].geometry.location;
-            console.log(location);
-        })
-        .catch(error => console.warn(error));
-let addEvent = event => {
+            var address = json.results[0].geometry.location;
+            console.log(address);
+            return address;
+        });
+        console.log(coord);
     firebase.database().ref('/events').push({
         name: event.name,
         pic: event.pic,
         location: event.location,
-        date: event.date
+        date: event.date,
+        lat: coord.lat,
+        long: coord.lng,
     });
     // console.log('event: ', event);
 };

@@ -88,7 +88,12 @@ export default class List extends Component {
                                         name: item.name,
                                         date: item.date,
                                         location: item.location,
+                                        lat: item.lat,
+                                        long: item.long,
+                                        state: this.state.mapRegion,
+                                        handle: this.state.handleMapRegionChange,
                                     });
+                                    console.log(item.long);
                                 }}>  
                                 <EventCard
                                 name={item.name}
