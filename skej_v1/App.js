@@ -8,6 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AddEvent from './screens/AddEvent';
 import EventList from './screens/EventList';
 import EventDetails from './screens/EventDetails';
+import CameraScreen from './screens/CameraScreen';
 
 class Icon extends React.Component {
   render() {
@@ -64,6 +65,7 @@ const EventListStackNavigator = createStackNavigator(
 const AddEventStackNavigator = createStackNavigator(
   {
     AddEvent,
+    CameraScreen,
   },
   {
     initialRouteName: 'AddEvent',
