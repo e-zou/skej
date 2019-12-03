@@ -4,6 +4,7 @@ import { Dimensions } from 'react-native';
 
 const screenWidth = Dimensions.get('window').width; 
 const screenHeight = Dimensions.get('window').height; 
+
 export default function EventCard(props) {
   return (
     <View style={styles.cardContainer}>
@@ -11,8 +12,8 @@ export default function EventCard(props) {
       <View style={styles.textContainer}>
         <Text style={styles.eventName}>{props.name}</Text>
         <Text>{props.date}</Text>
+        <Text>Location: {props.location}</Text>
         <Text>{props.desc}</Text>
-        <Text> {props.location}</Text>
       </View>
     </View>
   );
