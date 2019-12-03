@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import { Dimensions } from 'react-native';
+import MapView from 'react-native-maps';
+
+
 
 const screenWidth = Dimensions.get('window').width; 
 const screenHeight = Dimensions.get('window').height; 
@@ -11,6 +14,14 @@ export default function EventCard(props) {
       <Text style={styles.eventName}>{props.name}</Text>
       <Text>{props.date}</Text>
       <Text> {props.location}</Text>
+      <View style={styles.container}>
+          <Text style={styles.paragraph}>{text}</Text>
+            <MapView
+                style={{ alignSelf: 'stretch', height: 400 }}
+                region={this.state.mapRegion}
+                onRegionChange={this.handleMapRegionChange}
+              />
+        </View>
     </View>
   );
 }

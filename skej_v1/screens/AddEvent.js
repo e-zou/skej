@@ -2,16 +2,22 @@ import React, { Component } from 'react';
 import { Button, View, Text, StyleSheet, Alert, Keyboard } from 'react-native';
 import firebase from '../firebase/firebase.js';
 import t from 'tcomb-form-native';
+import Geocoder from 'react-native-geocoding';
 
 const Form = t.form.Form;
-
+Geocoder.init("AIzaSyD8WryF6moWGb0uzpuaNOq5XNzrhoRnqHs"); // use a valid API key
 const Event = t.struct({
     name: t.String,
     pic: t.String,
     date: t.String,
     location: t.String,
 });
-
+Geocoder.from("Colosseum")
+        .then(json => {
+            var location = json.results[0].geometry.location;
+            console.log(location);
+        })
+        .catch(error => console.warn(error));
 let addEvent = event => {
     firebase.database().ref('/events').push({
         name: event.name,
