@@ -20,7 +20,7 @@ let  addEvent = async event => {
             console.log(address);
             return address;
         });
-        console.log(coord);
+        ;
     firebase.database().ref('/events').push({
         name: event.name,
         pic: event.pic,

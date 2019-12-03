@@ -56,6 +56,8 @@ export default class List extends Component {
                         id: key, //this is to get the ID
                         name: foo[key].name,
                         location: foo[key].location,
+                        lat: foo[key].lat,
+                        long: foo[key].long,
                         pic: foo[key].image,
                         date: foo[key].date,
                     }
@@ -93,7 +95,8 @@ export default class List extends Component {
                                         state: this.state.mapRegion,
                                         handle: this.state.handleMapRegionChange,
                                     });
-                                    console.log(item.long);
+                                
+                                    //console.log(item.coords);
                                 }}>  
                                 <EventCard
                                 name={item.name}

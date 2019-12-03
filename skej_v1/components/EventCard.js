@@ -1,12 +1,6 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, Image } from 'react-native';
 import { Dimensions } from 'react-native';
-import MapView from 'react-native-maps';
-import { Platform } from 'react-native';
-import Constants from 'expo-constants';
-import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions';
-import list from "../screens/EventList";
 
 const screenWidth = Dimensions.get('window').width; 
 const screenHeight = Dimensions.get('window').height; 
@@ -17,7 +11,6 @@ export default function EventCard(props) {
       <Text style={styles.eventName}>{props.name}</Text>
       <Text>{props.date}</Text>
       <Text> {props.location}</Text>
-     
     </View>
   );
 }
@@ -26,9 +19,9 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
     width: screenWidth*0.9,
-    height: 400,
+    height: 100,
     shadowColor: 'grey',
-    shadowOffset: {
+    shadowOffset: {s
       width: 0,
       height: 5,
     },

@@ -6,9 +6,8 @@ export default class EventDetails extends Component {
   render() {
     const { navigation } = this.props;
     //console.log(navigation.getParam('state'));
-    console.log(navigation.getParam('lat'));
-    console.log(navigation.getParam('long'));
-    console.log(navigation.getParam('state'));
+   // console.log(navigation.getParam('coords'));
+    //console.log(navigation.getParam('state'));
     return (
       <View>
         <Text style={styles.eventName}>
@@ -22,9 +21,10 @@ export default class EventDetails extends Component {
                 style={{ height: 400 }}
                 region={navigation.getParam('state')}
                 onRegionChange={navigation.getParam('handle')}
-              />
-              <Marker coordinate={{ latitude: navigation.getParam('lat'), longitude: navigation.getParam('long')}}/>
-
+              >
+              <Marker coordinate={{latitude: navigation.getParam('lat'), longitude: navigation.getParam('long')}} title={"Event Location: " + navigation.getParam('name', 'NO-NAME')}/>
+              <Marker coordinate={navigation.getParam('state')} title={"Current Location"} color={"#0000FF"}/>
+      </MapView>
       </View>
     );
   }
