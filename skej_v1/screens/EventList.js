@@ -25,6 +25,7 @@ export default class List extends Component {
                         name: foo[key].name,
                         pic: foo[key].pic,
                         date: foo[key].date,
+                        desc: foo[key].desc,
                     }
                     eventsList.push(item);
                 });
@@ -49,12 +50,14 @@ export default class List extends Component {
                                         name: item.name,
                                         pic: item.pic,
                                         date: item.date,
+                                        desc: item.desc,
                                     });
                                 }}>  
                                 <EventCard
                                 name={item.name}
                                 pic={item.pic}
                                 date={item.date}
+                                desc={item.desc}
                                 />
                             </TouchableOpacity>
                         )}
