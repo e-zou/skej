@@ -113,7 +113,6 @@ export default class AddEvent extends Component {
         // // console.log('value: ', value);
         // // console.log('pic', pic);
         if (value != null && pic != null) {
-            Alert.alert('What is my picture value' + pic);
             addEvent(value, pic);
 
             this.uploadImage(this.state.image, this.state.imageSrc)
@@ -128,7 +127,6 @@ export default class AddEvent extends Component {
             Alert.alert('Your event was successfully created!');
             this.props.navigation.navigate('Home');
         } else {
-            Alert.alert('Either null value or null pic');
             Keyboard.dismiss();
             if (pic == null) {
                 Alert.alert('You must select an image.');
@@ -155,11 +153,6 @@ export default class AddEvent extends Component {
                     <Text style = {styles.header_text}>Create an Event</Text>
                     <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 20 }}>
                     </View>
-                    <View style={styles.form_container}>
-                    <Form 
-                        ref={c => this._form = c} 
-                        type={Event} 
-                    />
                     <Button
                         title="Upload an image from Camera Roll"
                         onPress={this.pickImage}
@@ -170,6 +163,12 @@ export default class AddEvent extends Component {
                     <Button title="Choose image..." onPress={this.takeImage} />
                     {/* {image &&
                         <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />} */}
+                    <View style={styles.form_container}>
+                    <Form 
+                        ref={c => this._form = c} 
+                        type={Event} 
+                    />
+
                     
                     <Button
                         title="Create Event"
@@ -182,25 +181,6 @@ export default class AddEvent extends Component {
             )
         }
     
-
-        return (
-            <View style={styles.container}>
-                <Text style = {styles.header_text}>Create an Event</Text>
-                <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 20 }}>
-                </View>
-                <View style={styles.form_container}>
-                <Form 
-                    ref={c => this._form = c} 
-                    type={Event} 
-                />
-                
-                <Button
-                    title="Create Event"
-                    onPress={this.handleSubmit}
-                />
-                </View>
-            </View>
-        );
     }
     
 
