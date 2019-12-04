@@ -14,8 +14,10 @@ constructor(prop) {
         hasCameraPermissions: null,
         type: Camera.Constants.Type.back,
         image: null,
+        imageSrc: null,
     }
 }
+
 
 async componentWillMount(){
     const {status} = await Permissions.askAsync(Permissions.CAMERA)
@@ -49,10 +51,13 @@ takeImage = async () => {
       this.uploadImage(result.uri, filename)
         .then(() => {
           Alert.alert("Success");
+          this.setState({imageSrc: filename});
+          
         })
         .catch((error) => {
           Alert.alert(error);
         });
+        
     }
 }
 
@@ -73,10 +78,12 @@ pickImage = async () => {
       this.uploadImage(result.uri, filename)
         .then(() => {
           Alert.alert("Success");
+          this.setState({imageSrc: filename});
         })
         .catch((error) => {
           Alert.alert(error);
         });
+        
     }
 };
 
