@@ -3,15 +3,47 @@ import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity } from '
 import EventCard from '../components/EventCard.js';
 import { Dimensions } from 'react-native';
 import firebase from '../firebase/firebase.js';
+import { Platform } from 'react-native';
+import Constants from 'expo-constants';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 export default class List extends Component {
     constructor(props) {
         super(props);
         this.state = {
             events: [],
+            mapRegion: null,
+            location: null,
+            errorMessage: null,
         }
     }
-
+   
+      componentWillMount() {
+        if (Platform.OS === 'android' && !Constants.isDevice) {
+          this.setState({
+            errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+          });
+        } else {
+          this._getLocationAsync();
+        }
+      }
+    
+      _getLocationAsync = async () => {
+        let { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if (status !== 'granted') {
+          this.setState({
+            errorMessage: 'Permission to access location was denied',
+          });
+        }
+    
+        let location = await Location.getCurrentPositionAsync({});
+        this.setState({ location: location });
+        this.setState({mapRegion: { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }});
+      };
+    
+     
+    
     componentDidMount() {
         const rootRef = firebase.database().ref();
         const eventsRef = rootRef.child("events");
@@ -23,6 +55,8 @@ export default class List extends Component {
                     var item = {
                         id: key, //this is to get the ID
                         name: foo[key].name,
+                        lat: foo[key].lat,
+                        long: foo[key].long,
                         pic: foo[key].pic,
                         date: foo[key].date,
                         location: foo[key].location,
@@ -37,6 +71,12 @@ export default class List extends Component {
     }
 
     render() {
+            let text = 'Waiting..';
+            if (this.state.errorMessage) {
+              text = this.state.errorMessage;
+            } else if (this.state.location) {
+              text = JSON.stringify(this.state.location);
+            }
         return (
             <View style={styles.container}>
                 <Text style = {styles.header_text}>All Events</Text>
@@ -53,7 +93,13 @@ export default class List extends Component {
                                         date: item.date,
                                         desc: item.desc,
                                         location: item.location,
+                                        lat: item.lat,
+                                        long: item.long,
+                                        state: this.state.mapRegion,
+                                        handle: this.state.handleMapRegionChange,
                                     });
+                                
+                                    //console.log(item.coords);
                                 }}>  
                                 <EventCard
                                 name={item.name}
@@ -61,6 +107,7 @@ export default class List extends Component {
                                 date={item.date}
                                 desc={item.desc}
                                 location={item.location}
+                                state={this.state}
                                 />
                             </TouchableOpacity>
                         )}

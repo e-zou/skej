@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Button, Image, View, Text, StyleSheet, Alert, Keyboard } from 'react-native';
 import firebase from '../firebase/firebase.js';
 import t from 'tcomb-form-native';
+import Geocoder from 'react-native-geocoding';
 import * as Permissions from 'expo-permissions';
-import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'uuid/v4'; // Import UUID to generate UUID
 import { format } from 'date-fns';
 
 const Form = t.form.Form;
-
+Geocoder.init("AIzaSyALZIr2GgXQHbTc9V8uiyangXZ_zG1cCoA"); // use a valid API key
 const Event = t.struct({
     name: t.String,
     date: t.Date,
@@ -17,18 +17,45 @@ const Event = t.struct({
     location: t.String,
 });
 
-let addEvent = (event, image) => {
+
+// let addEventCoord = async event => {
+//     let coord = await Geocoder.from(event.location)
+//         .then(json => {
+//             var address = json.results[0].geometry.location;
+//             console.log(address);
+//             return address;
+//         });
+//     return coord;
+// }
+
+let addEvent = async (event, image) => {
     var dt = event.date;
     // console.log('event.date: ', dt);
     var dtConverted = format(new Date(dt), 'MMM dd yyyy')
     // console.log('dtConverted: ', dtConverted);
+
+    let coord = await Geocoder.from(event.location)
+    .then(json => {
+        var address = json.results[0].geometry.location;
+        console.log(address);
+        return address;
+    });
+    ;
+
+   
     firebase.database().ref('/events').push({
         name: event.name,
         pic: image,
         date: dtConverted,
         desc: event.description,
         location: event.location,
-    });
+        date: event.date,
+        lat: coord.lat,
+        long: coord.lng,
+    })
+    
+
+
     // console.log('event: ', event);
 };
 
@@ -39,7 +66,6 @@ export default class AddEvent extends Component {
             event: {},
             hasCameraPermissions: null,
             hasCameraRollPermissions: null,
-            type: Camera.Constants.Type.back,
             image: null,
             imageSrc: null,
         };

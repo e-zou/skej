@@ -1,9 +1,15 @@
+//npm install --save react-native-geocoding
+//npm install react-native-maps --save-exact
+//npm install react-native-maps-directions
+//npm i react-native-google-maps-directions
 import React, { Component } from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { Text, View, ScrollView, StyleSheet, FlatList } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
+
 
 import AddEvent from './screens/AddEvent';
 import EventList from './screens/EventList';
@@ -108,5 +114,5 @@ export default class App extends Component {
     
     return <AppContainer />;
   }
-};
+}
 
