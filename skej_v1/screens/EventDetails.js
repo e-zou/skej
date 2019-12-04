@@ -2,32 +2,23 @@ import React, { Component } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import getDirections from 'react-native-google-maps-directions'
-import { View, Text, StyleSheet, Image, Dimensions , TouchableOpacity, Share} from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions , ScrollView, TouchableOpacity, Share} from 'react-native';
 // import { blue100 } from 'react-native-paper/lib/typescript/src/styles/colors';
-import RNShake from 'react-native-shake';
 
 export default class EventDetails extends Component {
-  componentWillMount() {
-    RNShake.addEventListener('ShakeEvent', () => {
-      // Your code...
-      this.props.navigation.navigate('EventList');
-    });
-  }
-  componentWillUnmount() {
-    RNShake.removeEventListener('ShakeEvent');
-  }
-
+  
   render() {
     const { navigation } = this.props;
     let address = navigation.getParam('state');
     let currentlat = address.latitude;
     let currentlong = address.longitude;
-    console.log(address.latitude);
+   // console.log(address.latitude);
     //console.log(navigation.getParam('state'));
    // console.log(navigation.getParam('coords'));
     //console.log(navigation.getParam('state'));
     return (
       <View styles={styles.container}>
+        <ScrollView>
         <Image source={{ uri: navigation.getParam('pic', 'NO-IMAGE') }} style={styles.imageContainer}/>
         <View style={styles.detailsContainer}>
           <Text style={styles.eventName}>
@@ -113,6 +104,7 @@ export default class EventDetails extends Component {
       <Text style={styles.share}> Share </Text>
       </TouchableOpacity>
       </View>
+      </ScrollView>
       </View>
     );
   }

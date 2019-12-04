@@ -56,6 +56,7 @@ export default class List extends Component {
                         id: key, //this is to get the ID
                         name: foo[key].name,
                         location: foo[key].location,
+                        description: foo[key].desc,
                         lat: foo[key].lat,
                         long: foo[key].long,
                         pic: foo[key].image,
@@ -90,12 +91,13 @@ export default class List extends Component {
                                         name: item.name,
                                         date: item.date,
                                         location: item.location,
+                                        desc: item.description,
                                         lat: item.lat,
                                         long: item.long,
                                         state: this.state.mapRegion,
                                         handle: this.state.handleMapRegionChange,
                                     });
-                                
+                                    console.log(item.description)
                                     //console.log(item.coords);
                                 }}>  
                                 <EventCard
