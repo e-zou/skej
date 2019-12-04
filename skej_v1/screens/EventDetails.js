@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+// import { blue100 } from 'react-native-paper/lib/typescript/src/styles/colors';
 
 export default class EventDetails extends Component {
+  
   render() {
     const { navigation } = this.props;
     return (
@@ -9,10 +11,16 @@ export default class EventDetails extends Component {
         <Image source={{ uri: navigation.getParam('pic', 'NO-IMAGE') }} style={styles.imageContainer}/>
         <View style={styles.detailsContainer}>
           <Text style={styles.eventName}>
-            {navigation.getParam('name', 'NO-NAME')}
+            Event: {navigation.getParam('name', 'NO-NAME')}
           </Text>
           <Text>
-            {navigation.getParam('date', 'NO-DATE')}
+            Date: {navigation.getParam('date', 'NO-DATE')}
+          </Text>
+          <Text>
+            Location: {navigation.getParam('location', 'NO-LOCATION')}
+          </Text>
+          <Text>
+            Description: {navigation.getParam('desc', 'NO-DESCRIPTION')}
           </Text>
         </View>
       </View>
@@ -25,6 +33,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 10,
     alignItems: 'center',
+    // backgroundColor: 'blue',
   },
   eventName: {
     fontSize: 18,
@@ -35,7 +44,9 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: Dimensions.get('window').width*0.8,
-    height: Dimensions.get('window').height*0.25,
+    height: Dimensions.get('window').width*0.8,
+    
+    
     padding: 20,
   }
 });
