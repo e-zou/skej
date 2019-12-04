@@ -4,6 +4,7 @@ import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import firebase from '../firebase/firebase.js';
+import uuid from 'uuid/v4'; // Import UUID to generate UUID
 
 export default class CameraComponent extends Component {
 
@@ -43,7 +44,9 @@ takeImage = async () => {
 
     if (!result.cancelled) {
         this.setState({ image: result.uri });
-      this.uploadImage(result.uri, "test-image")
+        let ext = this.state.image.split('.').pop(); // Extract image extension
+        let filename = `${uuid()}.${ext}`; // Generate unique name
+      this.uploadImage(result.uri, filename)
         .then(() => {
           Alert.alert("Success");
         })
@@ -65,7 +68,9 @@ pickImage = async () => {
 
     if (!result.cancelled) {
       this.setState({ image: result.uri });
-      this.uploadImage(result.uri, "test-image")
+      let ext = this.state.image.split('.').pop(); // Extract image extension
+      let filename = `${uuid()}.${ext}`; // Generate unique name
+      this.uploadImage(result.uri, filename)
         .then(() => {
           Alert.alert("Success");
         })
