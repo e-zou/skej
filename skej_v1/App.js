@@ -3,6 +3,7 @@
 //npm install react-native-maps-directions
 //npm i react-native-google-maps-directions
 //npm install react-native-shake
+//npm install date-fns --save
 import React, { Component } from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';

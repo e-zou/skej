@@ -1,9 +1,9 @@
 {
+  "devToolsPort": 19002,
+  "expoServerPort": null,
+  "packagerPort": 19001,
+  "packagerPid": 8844,
   "expoServerNgrokUrl": "https://q3-2fm.annarose2255.skej-v1.exp.direct",
   "packagerNgrokUrl": "https://packager.q3-2fm.annarose2255.skej-v1.exp.direct",
-  "ngrokPid": 15788,
-  "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 10116
+  "ngrokPid": 12824
 }

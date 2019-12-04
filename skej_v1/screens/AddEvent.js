@@ -31,13 +31,12 @@ const Event = t.struct({
 let addEvent = async (event, image) => {
     var dt = event.date;
     // console.log('event.date: ', dt);
-    var dtConverted = format(new Date(dt), 'MMM dd yyyy')
+    var dtConverted = format(new Date(dt), 'PPp');
     // console.log('dtConverted: ', dtConverted);
 
     let coord = await Geocoder.from(event.location)
     .then(json => {
         var address = json.results[0].geometry.location;
-        console.log(address);
         return address;
     });
     ;
@@ -194,7 +193,7 @@ export default class AddEvent extends Component {
                         title="Upload an image from Camera Roll"
                         onPress={this.pickImage}
                         />
-                    <Text style={{ textAlign: 'center' }}>or</Text>
+                    <Text style={{ textAlign: 'center', color: "#FFFFFF" }}>or</Text>
                     <Button title="Take a Picture" onPress={this.takeImage} />
                     {image &&
                         <Image source={{ uri: image }} style={{ justifyContent: 'center', width: 50, height: 50 }} />}
@@ -218,13 +217,13 @@ export default class AddEvent extends Component {
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
-        backgroundColor: '#ffffff',
+        backgroundColor: '#4a4949',
         flex:1,
     },
     form_container: {
         justifyContent: 'center',
         padding: 20,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#4a4949',
     },
     header_text: {
         fontSize: 28,
@@ -232,6 +231,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         paddingTop: 20,
         width: '100%',
+        color: '#FFFFFF',
     },
     cameraOptionsContainer: {
         justifyContent: 'center',

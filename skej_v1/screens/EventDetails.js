@@ -114,16 +114,18 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 10,
     alignItems: 'center',
-    // backgroundColor: 'blue',
+    backgroundColor: '#4a4949',
     margin: 10,
   },
   eventName: {
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: '#FFFFFF',
   },
   detailsContainer: {
     padding: 20,
     alignItems: 'center',
+    backgroundColor: '#4a4949',
   },
   imageContainer: {
     width: Dimensions.get('window').width*0.8,
@@ -131,10 +133,10 @@ const styles = StyleSheet.create({
   },
   directions:{
     fontSize: 18,
-    color:"blue",
+    color:"#00BF",
   },
   share: {
     fontSize: 18,
-    color: "purple"
+    color: "#A1FF"
   },
 });

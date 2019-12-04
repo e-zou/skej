@@ -22,10 +22,10 @@ export default function EventCard(props) {
 const styles = StyleSheet.create({
   cardContainer: {
     flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#565656',
     width: screenWidth*0.9,
     height: 100,
-    shadowColor: 'grey',
+    shadowColor: '#454545',
     shadowOffset: {
       width: 0,
       height: 5,
@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
   },
   eventName: {
     fontSize: 18,
-    fontWeight: 'bold'
+    fontWeight: 'bold', 
+    color: '#FFFFFF'
   },
   imageContainer: {
     width: 90,
@@ -45,6 +46,7 @@ const styles = StyleSheet.create({
     margin: 5
   }, 
   textContainer: {
-    margin: 5
+    margin: 5,
+    color: '#FFFFFF'
   }
 });
