@@ -108,8 +108,9 @@ export default class AddEvent extends Component {
         
     handleSubmit = () => {
         const value = this._form.getValue();
-
-        const pic = this.state.image;
+        // https://firebasestorage.googleapis.com/v0/b/skej-3eec6.appspot.com/o/images%2Fa7d7e6d4-a871-4d45-bbd4-8b22580aa0d1.png?alt=media
+        const url = "https://firebasestorage.googleapis.com/v0/b/skej-3eec6.appspot.com/o/images%2F"
+        const pic = url + this.state.imageSrc + "?alt=media";
         // // console.log('value: ', value);
         // // console.log('pic', pic);
         if (value != null && pic != null) {
