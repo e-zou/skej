@@ -20,7 +20,7 @@ const Event = t.struct({
 let addEvent = (event, image) => {
     var dt = event.date;
     // console.log('event.date: ', dt);
-    var dtConverted = format(new Date(dt), 'MMM dd YYYY')
+    var dtConverted = format(new Date(dt), 'MMM dd yyyy')
     // console.log('dtConverted: ', dtConverted);
     firebase.database().ref('/events').push({
         name: event.name,
