@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height-150,
+    backgroundColor: '#4a4949',
   },
   scrollview_container: {
     padding: 10
@@ -136,5 +137,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingTop: 20,
     width: '100%',
+    color: '#FFFFFF',
   },
 });
