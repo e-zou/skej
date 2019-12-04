@@ -31,7 +31,7 @@ const Event = t.struct({
 let addEvent = async (event, image) => {
     var dt = event.date;
     // console.log('event.date: ', dt);
-    var dtConverted = format(new Date(dt), 'PPp');
+    var dtConverted = format(new Date(dt), 'MMM dd yyyy')
     // console.log('dtConverted: ', dtConverted);
 
     let coord = await Geocoder.from(event.location)
@@ -138,9 +138,9 @@ export default class AddEvent extends Component {
     
     uploadImage = async (uri, imageName) => {
         const response = await fetch(uri);
-        // console.log(response);
+        console.log(response);
         const blob = await response.blob();
-        // console.log(blob);
+        console.log(blob);
         firebase.storage().ref().child("images/" + imageName).put(blob);
     }
         
