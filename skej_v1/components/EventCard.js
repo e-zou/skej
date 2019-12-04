@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     width: screenWidth*0.9,
     height: 100,
     shadowColor: 'grey',
-    shadowOffset: {s
+    shadowOffset: {
       width: 0,
       height: 5,
     },
