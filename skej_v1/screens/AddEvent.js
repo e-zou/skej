@@ -16,19 +16,10 @@ const Event = t.struct({
     location: t.String,
 });
 
-let addEvent = (event, imageSrc) => {
-    let filepath = 'images/'.concat(imageSrc);
-    console.log("filepath: ", filepath);
-    // console.log("ref: ", firebase.storage().ref())
-    console.log("imageSrc: ", imageSrc);
-    firebase.storage().ref(filepath).getDownloadURL().then(function(url) {
-        console.log(url)
-    });
-    // console.log("imageStorageRef: ", imageStorageRef);
-    // console.log("imageURL: ", imageURL);
+let addEvent = (event, image) => {
     firebase.database().ref('/events').push({
         name: event.name,
-        pic: null,
+        pic: image,
         date: event.date,
         desc: event.description,
         location: event.location,
@@ -116,29 +107,28 @@ export default class AddEvent extends Component {
     
     uploadImage = async (uri, imageName) => {
         const response = await fetch(uri);
-        // console.log("Response: ", response);
+        console.log(response);
         const blob = await response.blob();
-        // console.log(blob);
-        firebase.storage().ref().child("images/" + imageName).put(blob).then(function(url) {
-
-        });
+        console.log(blob);
+        firebase.storage().ref().child("images/" + imageName).put(blob);
     }
         
     handleSubmit = () => {
         const value = this._form.getValue();
-        const pic = this.state.image;
-        const picSrc = this.state.imageSrc;
-
-        if (value != null && pic != null && picSrc != null) {
-            addEvent(value, picSrc);
-            this.uploadImage(pic, picSrc)
+        // https://firebasestorage.googleapis.com/v0/b/skej-3eec6.appspot.com/o/images%2Fa7d7e6d4-a871-4d45-bbd4-8b22580aa0d1.png?alt=media
+        const url = "https://firebasestorage.googleapis.com/v0/b/skej-3eec6.appspot.com/o/images%2F"
+        const pic = url + this.state.imageSrc + "?alt=media";
+        // // console.log('value: ', value);
+        // // console.log('pic', pic);
+        if (value != null && pic != null) {
+            this.uploadImage(this.state.image, this.state.imageSrc)
             .then(() => {
               Alert.alert("Image successfully uploaded.");
             })
             .catch((error) => {
               Alert.alert(error);
             });
-
+            addEvent(value, pic);
             Keyboard.dismiss(); 
             Alert.alert('Your event was successfully created!');
             this.props.navigation.navigate('Home');
@@ -191,10 +181,7 @@ export default class AddEvent extends Component {
                 </View>
             )
         }
-    
     }
-    
-
 }  
   
 const styles = StyleSheet.create({
