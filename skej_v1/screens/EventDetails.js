@@ -79,7 +79,7 @@ export default class EventDetails extends Component {
   
     getDirections(data)
   }}>
-      <Text> Directions </Text>
+      <Text style={styles.directions}> Directions </Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={ async () => {
     try {
@@ -101,7 +101,7 @@ export default class EventDetails extends Component {
       alert(error.message);
     }
   }}>
-      <Text> Share </Text>
+      <Text style={styles.share}> Share </Text>
       </TouchableOpacity>
       </View>
       </View>
@@ -128,4 +128,12 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width*0.8,
     height: Dimensions.get('window').width*0.8,
   }
+  directions:{
+    fontSize: 18,
+    color:"blue"
+  },
+  share: {
+    fontSize: 18,
+    color: "purple"
+  },
 });
