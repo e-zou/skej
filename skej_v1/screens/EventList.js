@@ -58,10 +58,8 @@ export default class List extends Component {
                         location: foo[key].location,
                         lat: foo[key].lat,
                         long: foo[key].long,
-                        pic: foo[key].pic,
+                        pic: foo[key].image,
                         date: foo[key].date,
-                        location: foo[key].location,
-                        desc: foo[key].desc,
                     }
                     eventsList.push(item);
                 });
@@ -90,9 +88,7 @@ export default class List extends Component {
                             <TouchableOpacity key={item.id} onPress={() => {
                                     this.props.navigation.navigate('EventDetails', {
                                         name: item.name,
-                                        pic: item.pic,
                                         date: item.date,
-                                        desc: item.desc,
                                         location: item.location,
                                         lat: item.lat,
                                         long: item.long,
@@ -104,9 +100,8 @@ export default class List extends Component {
                                 }}>  
                                 <EventCard
                                 name={item.name}
-                                pic={item.pic}
+                                pic={item.image}
                                 date={item.date}
-                                desc={item.desc}
                                 location={item.location}
                                 state={this.state}
                                 />
@@ -131,18 +126,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height-150,
-
+    backgroundColor: '#4a4949',
   },
   scrollview_container: {
-    padding: 10,
-    height: Dimensions.get('window').height*0.8,
+    padding: 10
   },
   header_text: {
     fontSize: 28,
     textAlign: 'left',
     paddingLeft: 20,
     paddingTop: 20,
-    paddingBottom: 5,
     width: '100%',
+    color: '#FFFFFF',
   },
 });

@@ -4,10 +4,19 @@ import MapViewDirections from 'react-native-maps-directions';
 import getDirections from 'react-native-google-maps-directions'
 import { View, Text, StyleSheet, Image, Dimensions , TouchableOpacity, Share} from 'react-native';
 // import { blue100 } from 'react-native-paper/lib/typescript/src/styles/colors';
-
+import RNShake from 'react-native-shake';
 
 export default class EventDetails extends Component {
-  
+  componentWillMount() {
+    RNShake.addEventListener('ShakeEvent', () => {
+      // Your code...
+      this.props.navigation.navigate('EventList');
+    });
+  }
+  componentWillUnmount() {
+    RNShake.removeEventListener('ShakeEvent');
+  }
+
   render() {
     const { navigation } = this.props;
     let address = navigation.getParam('state');
@@ -79,7 +88,7 @@ export default class EventDetails extends Component {
   
     getDirections(data)
   }}>
-      <Text> Directions </Text>
+      <Text style={styles.directions}> Directions </Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={ async () => {
     try {
@@ -101,7 +110,7 @@ export default class EventDetails extends Component {
       alert(error.message);
     }
   }}>
-      <Text> Share </Text>
+      <Text style={styles.share}> Share </Text>
       </TouchableOpacity>
       </View>
       </View>
@@ -127,5 +136,13 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: Dimensions.get('window').width*0.8,
     height: Dimensions.get('window').width*0.8,
-  }
+  },
+  directions:{
+    fontSize: 18,
+    color:"blue",
+  },
+  share: {
+    fontSize: 18,
+    color: "purple"
+  },
 });

@@ -138,9 +138,9 @@ export default class AddEvent extends Component {
     
     uploadImage = async (uri, imageName) => {
         const response = await fetch(uri);
-        // console.log(response);
+        console.log(response);
         const blob = await response.blob();
-        // console.log(blob);
+        console.log(blob);
         firebase.storage().ref().child("images/" + imageName).put(blob);
     }
         

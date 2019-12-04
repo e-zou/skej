@@ -2,6 +2,7 @@
 //npm install react-native-maps --save-exact
 //npm install react-native-maps-directions
 //npm i react-native-google-maps-directions
+//npm install react-native-shake
 import React, { Component } from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
