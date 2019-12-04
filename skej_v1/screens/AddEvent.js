@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, Image, View, Text, StyleSheet, Alert, Keyboard } from 'react-native';
 import firebase from '../firebase/firebase.js';
 import t from 'tcomb-form-native';
-import CameraComponent from '../components/CameraComponent.js';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
@@ -110,7 +109,7 @@ export default class AddEvent extends Component {
     handleSubmit = () => {
         const value = this._form.getValue();
 
-        const pic = this.state.imageSrc;
+        const pic = this.state.image;
         // // console.log('value: ', value);
         // // console.log('pic', pic);
         if (value != null && pic != null) {
