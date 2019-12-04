@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Button, Image, View, Text, StyleSheet, Alert, Keyboard } from 'react-native';
 import firebase from '../firebase/firebase.js';
 import t from 'tcomb-form-native';
-import * as ImagePicker from 'expo-image-picker';
-import Constants from 'expo-constants';
-import * as Permissions from 'expo-permissions';
+import CameraComponent from '../components/CameraComponent.js';
+
 
 const Form = t.form.Form;
 
@@ -26,6 +25,9 @@ let addEvent = (event, image) => {
     // console.log('event: ', event);
 };
 
+
+
+
 export default class AddEvent extends Component {
     constructor(props) {
         super(props);
@@ -34,7 +36,8 @@ export default class AddEvent extends Component {
             image: null
         };
     }
-    
+
+        
     handleSubmit = () => {
         const value = this._form.getValue();
         const pic = this.state.image;
@@ -61,18 +64,13 @@ export default class AddEvent extends Component {
             <View style={styles.container}>
                 <Text style = {styles.header_text}>Create an Event</Text>
                 <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 20 }}>
-                    <Button
-                    title="Upload an image from Camera Roll"
-                    onPress={this._pickImage}
-                    />
-                    {image &&
-                    <Image source={{ uri: image }} style={{ width: 90, height: 90 }} />}
                 </View>
                 <View style={styles.form_container}>
                 <Form 
                     ref={c => this._form = c} 
                     type={Event} 
                 />
+                <CameraComponent/>
                 <Button
                     title="Create Event"
                     onPress={this.handleSubmit}
@@ -95,26 +93,14 @@ export default class AddEvent extends Component {
         }
     }
     
-    _pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1
-        });
-    
-        // console.log(result);
-    
-        if (!result.cancelled) {
-          this.setState({ image: result.uri });
-        }
-    };
+
 }  
   
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         backgroundColor: '#ffffff',
+        flex:1,
     },
     form_container: {
         justifyContent: 'center',
