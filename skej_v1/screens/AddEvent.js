@@ -6,6 +6,7 @@ import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'uuid/v4'; // Import UUID to generate UUID
+import { format } from 'date-fns';
 
 const Form = t.form.Form;
 
@@ -17,10 +18,14 @@ const Event = t.struct({
 });
 
 let addEvent = (event, image) => {
+    var dt = event.date;
+    // console.log('event.date: ', dt);
+    var dtConverted = format(new Date(dt), 'MMM dd YYYY')
+    // console.log('dtConverted: ', dtConverted);
     firebase.database().ref('/events').push({
         name: event.name,
         pic: image,
-        date: event.date,
+        date: dtConverted,
         desc: event.description,
         location: event.location,
     });

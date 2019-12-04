@@ -14,6 +14,9 @@ export default class EventDetails extends Component {
           <Text>
             {navigation.getParam('date', 'NO-DATE')}
           </Text>
+          <Text>
+            {navigation.getParam('desc', 'NO-DESCRIPTION')}
+          </Text>
         </View>
       </View>
     );
@@ -25,17 +28,18 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 10,
     alignItems: 'center',
+    margin: 10,
   },
   eventName: {
     fontSize: 18,
     fontWeight: 'bold'
   },
   detailsContainer: {
-    padding: 10,
+    padding: 20,
+    alignItems: 'center',
   },
   imageContainer: {
     width: Dimensions.get('window').width*0.8,
     height: Dimensions.get('window').height*0.25,
-    padding: 20,
   }
 });
