@@ -55,7 +55,6 @@ export default class List extends Component {
                     var item = {
                         id: key, //this is to get the ID
                         name: foo[key].name,
-                        location: foo[key].location,
                         lat: foo[key].lat,
                         long: foo[key].long,
                         pic: foo[key].pic,
@@ -129,9 +128,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height-150,
-
   },
   scrollview_container: {
     padding: 10,
