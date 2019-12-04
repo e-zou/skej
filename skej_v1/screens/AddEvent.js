@@ -6,6 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import { format } from 'date-fns';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Form = t.form.Form;
 
@@ -78,6 +79,8 @@ export default class AddEvent extends Component {
                     ref={c => this._form = c} 
                     type={Event} 
                 />
+                <TouchableOpacity onPress={()=> this.props.navigation.navigate('CameraScreen')}><Text>Take Picture</Text></TouchableOpacity>
+
                 <Button
                     title="Create Event"
                     onPress={this.handleSubmit}
@@ -120,6 +123,7 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         backgroundColor: '#ffffff',
+        flex:1,
     },
     form_container: {
         justifyContent: 'center',
