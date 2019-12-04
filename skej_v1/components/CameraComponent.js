@@ -32,7 +32,7 @@ getPermissionAsync = async () => {
     
 }
 
-onChooseImagePress = async () => {
+takeImage = async () => {
     let result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
@@ -52,6 +52,28 @@ onChooseImagePress = async () => {
         });
     }
 }
+
+pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1
+    });
+
+    // console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+      this.uploadImage(result.uri, "test-image")
+        .then(() => {
+          Alert.alert("Success");
+        })
+        .catch((error) => {
+          Alert.alert(error);
+        });
+    }
+};
 
 uploadImage = async (uri, imageName) => {
     const response = await fetch(uri);
@@ -76,12 +98,12 @@ uploadImage = async (uri, imageName) => {
             <View>
                 <Button
                     title="Upload an image from Camera Roll"
-                    onPress={this._pickImage}
+                    onPress={this.pickImage}
                     />
                     {image &&
                     <Image source={{ uri: image }} style={{ width: 90, height: 90 }} />}
-                    
-                <Button title="Choose image..." onPress={this.onChooseImagePress} />
+
+                <Button title="Choose image..." onPress={this.takeImage} />
                 {image &&
                     <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
             </View>
