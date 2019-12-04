@@ -20,7 +20,7 @@ const Event = t.struct({
 let addEvent = (event, image) => {
     var dt = event.date;
     // console.log('event.date: ', dt);
-    var dtConverted = format(new Date(dt), 'MMM dd YYYY')
+    var dtConverted = format(new Date(dt), 'PPp');
     // console.log('dtConverted: ', dtConverted);
     firebase.database().ref('/events').push({
         name: event.name,
@@ -112,9 +112,9 @@ export default class AddEvent extends Component {
     
     uploadImage = async (uri, imageName) => {
         const response = await fetch(uri);
-        console.log(response);
+        // console.log(response);
         const blob = await response.blob();
-        console.log(blob);
+        // console.log(blob);
         firebase.storage().ref().child("images/" + imageName).put(blob);
     }
         
