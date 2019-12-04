@@ -22,6 +22,9 @@ export default class EventDetails extends Component {
           <Text>
             Description: {navigation.getParam('desc', 'NO-DESCRIPTION')}
           </Text>
+          <Text>
+            {navigation.getParam('desc', 'NO-DESCRIPTION')}
+          </Text>
         </View>
       </View>
     );
@@ -34,19 +37,18 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     // backgroundColor: 'blue',
+    margin: 10,
   },
   eventName: {
     fontSize: 18,
     fontWeight: 'bold'
   },
   detailsContainer: {
-    padding: 10,
+    padding: 20,
+    alignItems: 'center',
   },
   imageContainer: {
     width: Dimensions.get('window').width*0.8,
     height: Dimensions.get('window').width*0.8,
-    
-    
-    padding: 20,
   }
 });
