@@ -1,10 +1,10 @@
 {
-  "devToolsPort": 19002,
+  "devToolsPort": 19003,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 18884,
+  "packagerPid": 3160,
   "expoServerNgrokUrl": "https://75-bjm.annarose2255.skej-v1.exp.direct",
   "packagerNgrokUrl": "https://packager.75-bjm.annarose2255.skej-v1.exp.direct",
-  "ngrokPid": 14824,
+  "ngrokPid": 1164,
   "webpackServerPort": null
 }

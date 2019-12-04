@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Share } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import getDirections from 'react-native-google-maps-directions'
@@ -11,6 +11,10 @@ export default class EventDetails extends Component {
   
   render() {
     const { navigation } = this.props;
+    let address = navigation.getParam('state');
+    let currentlat = address.latitude;
+    let currentlong = address.longitude;
+    console.log(address.latitude);
     //console.log(navigation.getParam('state'));
    // console.log(navigation.getParam('coords'));
     //console.log(navigation.getParam('state'));
@@ -39,55 +43,60 @@ export default class EventDetails extends Component {
               <Marker coordinate={navigation.getParam('state')} title={"Current Location"} pinColor={"#0000FF"}/>
       </MapView>
       <View style={styles.container}>
-      <TouchableOpacity onPress={this.handleGetDirections}>
+      <TouchableOpacity onPress={async () => {  
+        const data = {
+
+      source:{
+        latitude: currentlat, 
+        longitude: currentlong,
+      },
+      destination: {
+        latitude: navigation.getParam('lat'), 
+        longitude: navigation.getParam('long')
+      },
+      params: [
+        {
+          key: "travelmode",
+          value: "walking"        // may be "walking", "bicycling" or "transit" as well
+        },
+        {
+          key: "dir_action",
+          value: "navigate"       // this instantly initializes navigation using the given travel mode
+        }
+      ],
+    }
+  
+    getDirections(data)
+  }}>
       <Text> Directions </Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={ async () => {
+    try {
+      const result = await Share.share({
+        message:
+          'Hey check out this event! ',
+      });
+  
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  }}>
+      <Text> Share </Text>
       </TouchableOpacity>
       </View>
       </View>
     );
   }
 }
-
-handleGetDirections = () => {
-  const data = {
-    source: {
-      latitude: -33.8356372,
-      longitude: 18.6947617
-    },
-    destination: {
-      latitude: -33.8356372,
-      longitude: 18.9947617,
-    },
-    params: [
-      {
-        key: "travelmode",
-        value: "walking"        // may be "walking", "bicycling" or "transit" as well
-      },
-      {
-        key: "dir_action",
-        value: "navigate"       // this instantly initializes navigation using the given travel mode
-      }
-    ],
-    /*  
-      waypoints: [
-      {
-        latitude: -33.8600025,
-        longitude: 18.697452
-      },
-      {
-        latitude: -33.8600026,
-        longitude: 18.697453
-      },
-         {
-        latitude: -33.8600036,
-        longitude: 18.697493
-      }
-    ] */
-  }
-
-  getDirections(data)
-}
-
 const styles = StyleSheet.create({
   eventName: {
     fontSize: 18,
