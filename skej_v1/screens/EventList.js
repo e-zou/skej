@@ -55,6 +55,10 @@ export default class List extends Component {
                     var item = {
                         id: key, //this is to get the ID
                         name: foo[key].name,
+<<<<<<< HEAD
+=======
+                        location: foo[key].location,
+>>>>>>> dev-merge
                         lat: foo[key].lat,
                         long: foo[key].long,
                         pic: foo[key].pic,
@@ -128,6 +132,12 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
+<<<<<<< HEAD
+=======
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height-150,
+
+>>>>>>> dev-merge
   },
   scrollview_container: {
     padding: 10,

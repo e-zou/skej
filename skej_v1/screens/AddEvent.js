@@ -31,7 +31,7 @@ const Event = t.struct({
 let addEvent = async (event, image) => {
     var dt = event.date;
     // console.log('event.date: ', dt);
-    var dtConverted = format(new Date(dt), 'PPp');
+    var dtConverted = format(new Date(dt), 'MMM dd yyyy')
     // console.log('dtConverted: ', dtConverted);
 
     let coord = await Geocoder.from(event.location)
