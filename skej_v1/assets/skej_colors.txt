@@ -1,5 +1,0 @@
-background 4A4949
-card background 565656
-teal accent 6FC4FA
-purple start gradient 8474BD
-purple end gradient 70649B
