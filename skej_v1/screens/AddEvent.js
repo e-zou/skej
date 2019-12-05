@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, Image, View, Text, StyleSheet, Alert, Keyboard } from 'react-native';
+import { Button, Image, View, Text, ScrollView, StyleSheet, Alert, Keyboard } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import firebase from '../firebase/firebase.js';
 import t from 'tcomb-form-native';
 import Geocoder from 'react-native-geocoding';
@@ -7,14 +8,15 @@ import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import uuid from 'uuid/v4'; // Import UUID to generate UUID
 import { format } from 'date-fns';
+import { Dimensions } from 'react-native';
 
 const Form = t.form.Form;
 Geocoder.init("AIzaSyALZIr2GgXQHbTc9V8uiyangXZ_zG1cCoA"); // use a valid API key
 const Event = t.struct({
     name: t.String,
     date: t.Date,
-    description: t.String,
     location: t.String,
+    description: t.String,
 });
 
 
@@ -37,12 +39,10 @@ let addEvent = async (event, image) => {
     let coord = await Geocoder.from(event.location)
     .then(json => {
         var address = json.results[0].geometry.location;
-        console.log(address);
+        // console.log(address);
         return address;
     });
-    ;
 
-   
     firebase.database().ref('/events').push({
         name: event.name,
         pic: image,
@@ -52,9 +52,7 @@ let addEvent = async (event, image) => {
         lat: coord.lat,
         long: coord.lng,
     })
-    
-
-
+    this.setState({ event: {} });
     // console.log('event: ', event);
 };
 
@@ -67,10 +65,15 @@ export default class AddEvent extends Component {
             hasCameraRollPermissions: null,
             image: null,
             imageSrc: null,
+            value: '',
+            nameCount: 40,
+            locationCount: 40,
+            descCount: 100,
+            date: new Date(),
         };
     }
 
-    async componentWillMount(){
+    async componentWillMount() {
         this.getCameraPermissionAsync();
         this.getCameraRollPermissionAsync();
     }
@@ -137,9 +140,9 @@ export default class AddEvent extends Component {
     
     uploadImage = async (uri, imageName) => {
         const response = await fetch(uri);
-        console.log(response);
+        // console.log(response);
         const blob = await response.blob();
-        console.log(blob);
+        // console.log(blob);
         firebase.storage().ref().child("images/" + imageName).put(blob);
     }
         
@@ -150,7 +153,7 @@ export default class AddEvent extends Component {
         const pic = url + this.state.imageSrc + "?alt=media";
         // // console.log('value: ', value);
         // // console.log('pic', pic);
-        if (value != null && pic != null) {
+        if (value != null && this.state.image != null) {
             this.uploadImage(this.state.image, this.state.imageSrc)
             .then(() => {
               Alert.alert("Image successfully uploaded.");
@@ -164,7 +167,7 @@ export default class AddEvent extends Component {
             this.props.navigation.navigate('Home');
         } else {
             Keyboard.dismiss();
-            if (pic == null) {
+            if (this.state.image == null) {
                 Alert.alert('You must select or take an image.');
             } else {
                 Alert.alert('All fields are required.');
@@ -172,11 +175,60 @@ export default class AddEvent extends Component {
         }
         // Alert.alert('What is my picture value' + this.state.image);
     }
-        
+      
+    onChange = (value) => {
+        this.setState({value: value});
+        if (value.name != null ) {
+            this.setState({nameCount: 40-value.name.length});
+        }
+        if (value.location != null ) {
+            this.setState({locationCount: 40-value.location.length});
+        }
+        if (value.description != null ) {
+            this.setState({descCount: 100-value.description.length});
+        }
+    }
+
     render() {
         let { image } = this.state;
         let { hasCameraPermissions } = this.state;
         let { hasCameraRollPermissions } = this.state;
+        const options = {
+            fields: {
+              name: {
+                maxLength: 40,
+                help: 'Characters Left: ' + this.state.nameCount + '/40'
+              },
+              date: {
+                minimumDate: this.state.date,
+              },
+              location: {
+                maxLength: 40,
+                help: 'Characters Left: ' + this.state.locationCount + '/40'
+              },
+              description: {
+                    maxLength: 100,
+                    allowFontScaling: false,
+                    numberOfLines: 3,
+                    multiline: true,
+                    stylesheet: {
+                        ...Form.stylesheet,
+                        textbox: {
+                            ...Form.stylesheet.textbox,
+                            normal: {
+                                ...Form.stylesheet.textbox.normal,
+                                height: 100
+                            },
+                            error: {
+                                ...Form.stylesheet.textbox.error,
+                                height: 100
+                            }
+                        }
+                    },
+                    help: 'Characters Left: ' + this.state.descCount + '/100'
+                }
+            }
+        };
 
         if (hasCameraPermissions === null) {
             return <View/>
@@ -188,26 +240,31 @@ export default class AddEvent extends Component {
             return ( 
                 <View style={styles.container}>
                     <Text style = {styles.header_text}>Create an Event</Text>
-                    <View style={styles.cameraOptionsContainer}>
-                    <Button
-                        title="Upload an image from Camera Roll"
-                        onPress={this.pickImage}
-                        />
-                    <Text style={{ textAlign: 'center' }}>or</Text>
-                    <Button title="Take a Picture" onPress={this.takeImage} />
-                    {image &&
-                        <Image source={{ uri: image }} style={{ justifyContent: 'center', width: 50, height: 50 }} />}
-                    </View>
-                    <View style={styles.form_container}>
-                    <Form 
-                        ref={c => this._form = c} 
-                        type={Event} 
-                    />
-                    <Button
-                        title="Create Event"
-                        onPress={this.handleSubmit}
-                    />
-                    </View>
+                    <KeyboardAwareScrollView style={styles.scrollview_container}>
+                        <View style={styles.cameraOptionsContainer}>
+                            <Button
+                                title="Upload an image from Camera Roll"
+                                onPress={this.pickImage}
+                                />
+                            <Text style={{ textAlign: 'center' }}>or</Text>
+                            <Button title="Take a Picture" onPress={this.takeImage} />
+                            {image &&
+                                <Image source={{ uri: image }} style={{ justifyContent: 'center', width: 50, height: 50 }} />}
+                        </View>
+                        <View style={styles.form_container}>
+                            <Form 
+                                ref={c => this._form = c} 
+                                type={Event}
+                                options={options}
+                                value={this.state.value}
+                                onChange={this.onChange}
+                            />
+                            <Button
+                                title="Create Event"
+                                onPress={this.handleSubmit}
+                            />
+                        </View>
+                    </KeyboardAwareScrollView>
                 </View>
             )
         }
@@ -216,13 +273,11 @@ export default class AddEvent extends Component {
   
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'center',
         backgroundColor: '#ffffff',
-        flex:1,
+        flexGrow: 1,
     },
     form_container: {
-        justifyContent: 'center',
-        padding: 20,
+        padding: 10,
         backgroundColor: '#ffffff',
     },
     header_text: {
@@ -230,11 +285,16 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         paddingLeft: 20,
         paddingTop: 20,
+        paddingBottom: 5,
         width: '100%',
     },
     cameraOptionsContainer: {
         justifyContent: 'center',
         alignItems: 'center', 
-        paddingTop: 10
-    }
+        // paddingTop: 10,
+    },
+    scrollview_container: {
+        padding: 10,
+        height: Dimensions.get('window').height*0.7,
+    },
   });

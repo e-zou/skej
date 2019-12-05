@@ -16,6 +16,7 @@ export default class List extends Component {
             mapRegion: null,
             location: null,
             errorMessage: null,
+            date: new Date(),
         }
     }
    
@@ -84,7 +85,11 @@ export default class List extends Component {
                     <ScrollView style={styles.scrollview_container}>
                     <View>
                         <FlatList
-                        data= {this.state.events}
+                        data= {this.state.events.sort(function compare(a, b) {
+                          var dateA = new Date(a.date);
+                          var dateB = new Date(b.date);
+                          return dateA - dateB;
+                        })}
                         renderItem={({ item }) => (
                             <TouchableOpacity key={item.id} onPress={() => {
                                     this.props.navigation.navigate('EventDetails', {
@@ -126,12 +131,11 @@ export default class List extends Component {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   scrollview_container: {
     padding: 10,
-    height: Dimensions.get('window').height*0.8,
+    height: Dimensions.get('window').height*0.7,
   },
   header_text: {
     fontSize: 28,

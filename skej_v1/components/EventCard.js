@@ -10,10 +10,10 @@ export default function EventCard(props) {
     <View style={styles.cardContainer}>
       <Image source={{ uri: props.pic }} style={styles.imageContainer}/>
       <View style={styles.textContainer}>
-        <Text style={styles.eventName}>{props.name}</Text>
-        <Text>{props.date}</Text>
-        <Text>{props.location}</Text>
-        <Text>{props.desc}</Text>
+        <Text numberOfLines={1} ellipsizeMode="tail" style={styles.eventName}>{props.name}</Text>
+        <Text numberOfLines={1} ellipsizeMode="tail">{props.date}</Text>
+        <Text numberOfLines={1} ellipsizeMode="tail">{props.location}</Text>
+        <Text numberOfLines={2} ellipsizeMode="tail">{props.desc}</Text>
       </View>
     </View>
   );
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     margin: 5
   }, 
   textContainer: {
-    margin: 5
+    margin: 5,
+    flexShrink: 1,
   }
 });
