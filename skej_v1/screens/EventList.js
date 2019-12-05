@@ -55,7 +55,6 @@ export default class List extends Component {
                     var item = {
                         id: key, //this is to get the ID
                         name: foo[key].name,
-                        location: foo[key].location,
                         lat: foo[key].lat,
                         long: foo[key].long,
                         pic: foo[key].pic,
