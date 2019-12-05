@@ -13,10 +13,10 @@ export default class EventDetails extends Component {
     let address = navigation.getParam('state');
     let currentlat = address.latitude;
     let currentlong = address.longitude;
-    console.log(address.latitude);
-    //console.log(navigation.getParam('state'));
-   // console.log(navigation.getParam('coords'));
-    //console.log(navigation.getParam('state'));
+    // console.log(address.latitude);
+    // console.log(navigation.getParam('state'));
+    // console.log(navigation.getParam('coords'));
+    // console.log(navigation.getParam('state'));
     return (
       <View styles={styles.container}>
         <Image source={{ uri: navigation.getParam('pic', 'NO-IMAGE') }} style={styles.imageContainer}/>

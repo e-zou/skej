@@ -49,7 +49,6 @@ let addEvent = async (event, image) => {
         date: dtConverted,
         desc: event.description,
         location: event.location,
-        date: event.date,
         lat: coord.lat,
         long: coord.lng,
     })
